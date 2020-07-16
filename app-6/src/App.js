@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import Todo from './components/Todo';
+import InputBox from './components/InputBox';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
+class App extends Component {
+  state = {
+    todoList: [],
+    currentTodo: ''
+  }
+  addTodoHandler = (e) =>{
+    this.setState({
+      [e.target.name]: e.target.value 
+    });
+  }
+  submitInputBoxHandler = (e) =>{
+    e.preventDefault();
+    let todo = this.state.currentTodo;
+    this.setState({
+      todoList: [...this.state.todoList, todo],
+      currentTodo: ''    
+    });
+    console.log(`added ${todo} to list`);
+  }
+  render(){
+    return (
+      <div className="App">
+        <h1>My Todo List</h1>
+        <InputBox currentTodo={this.state.currentTodo} 
+          addTodoHandler={this.addTodoHandler} 
+          submitInputBoxHandler={this.submitInputBoxHandler}/>
+        {this.state.todoList.length < 1 
+          ? <h3>Add a Todo!</h3>
+          : this.state.todoList.map(todo => {
+            return <Todo todo={todo} />
+          })
+        }
+      </div>
+    );
+}}
 export default App;
