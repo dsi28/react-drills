@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import TodoList from './components/ListComponent';
+import InputBox from './components/InputBoxComponent';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = { 
+    list: ['test1', 'test2', '3'],
+    currentTodo: ''
+  }
+
+  updateCurrentTodo = (value) => {
+    this.setState({
+      ...this.state,
+      currentTodo: value
+    });
+  }
+  addCurrentTodoToList = () => {
+    this.setState({
+      ...this.state,
+      list: [...this.state.list, this.state.currentTodo],
+      currentTodo: ''
+    });
+  }
+
+  render(){
+    return(
+      <div style={{ textAlign: "center"}}>
+        <h1>Todo List</h1>
+        <InputBox 
+          currentTodo={this.state.currentTodo}
+          addCurrentTodoToList={this.addCurrentTodoToList}
+          updateCurrentTodo={this.updateCurrentTodo}
+        />
+        <TodoList list={this.state.list}/>
+      </div>
+    )
+  }
 }
 
 export default App;
