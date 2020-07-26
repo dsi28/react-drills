@@ -29,8 +29,11 @@ class App extends Component {
       .catch(error => console.log(error.message));
   }
 
-  render(){
+  componentDidMount(){
     this.getPokemon();
+  }
+
+  render(){
     return(
       <div className="App">
         {this.state.pokeDataRecevied ? 
